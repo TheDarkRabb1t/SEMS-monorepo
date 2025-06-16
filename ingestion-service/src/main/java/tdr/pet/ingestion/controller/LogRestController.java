@@ -1,4 +1,4 @@
-package tdr.pet.ingestion;
+package tdr.pet.ingestion.controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;

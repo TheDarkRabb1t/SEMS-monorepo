@@ -1,4 +1,4 @@
-package tdr.pet.ingestion;
+package tdr.pet.ingestion.service;
 
 public class LogIngestionService {
 }
