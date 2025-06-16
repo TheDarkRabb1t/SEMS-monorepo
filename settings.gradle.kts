@@ -1,3 +1,3 @@
 rootProject.name = "SEMS"
 
-include("ingestion-service")
+include("common-lib", "ingestion-service")
