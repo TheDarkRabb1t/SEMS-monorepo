@@ -1,8 +1,11 @@
 package model;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.List;
 
+@Data
 public class EnrichedLogEvent implements Serializable {
     private String timestamp;
     private String ip;

@@ -1,8 +1,11 @@
 package model;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.time.Instant;
 
+@Data
 public class LogEvent implements Serializable {
     private String ip;
     private String message;
