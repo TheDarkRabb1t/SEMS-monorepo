@@ -7,4 +7,5 @@ dependencies {
     implementation(project(":common-lib"))
     implementation("com.maxmind.geoip2:geoip2:4.3.1")
     implementation("org.springframework.boot:spring-boot-starter-amqp")
+    implementation("com.github.ua-parser:uap-java:1.6.1")
 }
