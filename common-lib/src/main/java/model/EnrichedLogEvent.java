@@ -8,12 +8,12 @@ import java.util.List;
 
 @Data
 public class EnrichedLogEvent implements Serializable {
-    private Instant timestamp;
     private String ip;
     private String message;
     private String rawUserAgent;
     private String userId;
     private String status;
+    private Instant timestamp;
 
     private GeoLocation geo;
     private UserAgentInfo parsedUserAgent;
@@ -21,4 +21,14 @@ public class EnrichedLogEvent implements Serializable {
     private List<String> tags;
 
     private AuthContext auth;
+
+    public static EnrichedLogEvent fromLogEvent(LogEvent logEvent) {
+        EnrichedLogEvent enrichedLogEvent = new EnrichedLogEvent();
+        enrichedLogEvent.setIp(logEvent.getIp());
+        enrichedLogEvent.setStatus(logEvent.getStatus());
+        enrichedLogEvent.setMessage(logEvent.getMessage());
+        enrichedLogEvent.setRawUserAgent(logEvent.getUserAgent());
+        enrichedLogEvent.setTimestamp(logEvent.getTimestamp());
+        return enrichedLogEvent;
+    }
 }

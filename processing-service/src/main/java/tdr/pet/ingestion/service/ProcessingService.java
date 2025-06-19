@@ -35,7 +35,7 @@ public class ProcessingService {
     )
 
     public void process(LogEvent logEvent) {
-        EnrichedLogEvent enrichedLogEvent = new EnrichedLogEvent();
+        EnrichedLogEvent enrichedLogEvent = EnrichedLogEvent.fromLogEvent(logEvent);
         enrichedLogEvent.setMessage(logEvent.getMessage());
         enrichedLogEvent.setStatus(logEvent.getStatus());
         enrichedLogEvent.setTimestamp(logEvent.getTimestamp());
