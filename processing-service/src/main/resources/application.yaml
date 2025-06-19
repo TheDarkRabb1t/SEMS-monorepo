@@ -1,0 +1,2 @@
+geoip:
+  dbPath: "classpath:GeoLite2-City.mmdb"
