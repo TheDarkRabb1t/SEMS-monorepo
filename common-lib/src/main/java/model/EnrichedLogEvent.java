@@ -3,11 +3,12 @@ package model;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.List;
 
 @Data
 public class EnrichedLogEvent implements Serializable {
-    private String timestamp;
+    private Instant timestamp;
     private String ip;
     private String message;
     private String rawUserAgent;
