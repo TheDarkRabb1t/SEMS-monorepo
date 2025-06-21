@@ -30,7 +30,7 @@ public class ProcessingService {
 
     @RabbitListener(bindings = @QueueBinding(
             value = @Queue(value = "logs.queue", durable = "true"),
-            exchange = @Exchange(value = "logs.exchange", ignoreDeclarationExceptions = "true"),
+            exchange = @Exchange(value = "logs.exchange", ignoreDeclarationExceptions = "true", type = "topic"),
             key = "logs.key")
     )
 
