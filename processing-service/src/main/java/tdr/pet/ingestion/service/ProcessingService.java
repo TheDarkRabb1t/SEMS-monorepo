@@ -36,9 +36,6 @@ public class ProcessingService {
 
     public void process(LogEvent logEvent) {
         EnrichedLogEvent enrichedLogEvent = EnrichedLogEvent.fromLogEvent(logEvent);
-        enrichedLogEvent.setMessage(logEvent.getMessage());
-        enrichedLogEvent.setStatus(logEvent.getStatus());
-        enrichedLogEvent.setTimestamp(logEvent.getTimestamp());
         enrichedLogEvent.setGeo(enrichGeoData(logEvent.getIp()));
         enrichedLogEvent.setParsedUserAgent(parseUserAgentInfo(logEvent.getUserAgent()));
     }
