@@ -3,7 +3,6 @@ plugins {
 }
 
 group = "tdr.pet"
-version = "1.0.0-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_21
 
 allprojects {
@@ -16,7 +15,6 @@ subprojects {
     apply(plugin = "java")
 
     group = "tdr.pet"
-    version = "1.0.0-SNAPSHOT"
 
     java.sourceCompatibility = JavaVersion.VERSION_21
 
