@@ -16,7 +16,7 @@ public class RabbitConfig {
 
     @Bean
     public TopicExchange exchange() {
-        return new TopicExchange(EXCHANGE);
+        return new TopicExchange(EXCHANGE, true, false);
     }
 
     @Bean

@@ -1,10 +1,10 @@
 spring:
   rabbitmq:
     host: ${RABBITMQ_HOST}
-    port: ${RABBITMQ_PORT}
+    port: ${RABBITMQ_AMQP_PORT}
     username: ${RABBITMQ_USER}
     password: ${RABBITMQ_PASS}
   application:
-    name: Ingestion-Service
+    name: Processing-Service
 geoip:
-  dbPath: "classpath:GeoLite2-City.mmdb"
+  dbPath: "/GeoLite2-City.mmdb"

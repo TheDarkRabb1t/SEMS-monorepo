@@ -1,7 +1,7 @@
 spring:
   rabbitmq:
     host: ${RABBITMQ_HOST}
-    port: ${RABBITMQ_PORT}
+    port: ${RABBITMQ_AMQP_PORT}
     username: ${RABBITMQ_USER}
     password: ${RABBITMQ_PASS}
   application:
