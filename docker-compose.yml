@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  ingestion-service:
+    build:
+      context: .
+      dockerfile: ./ingestion-service/Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "${INGESTION_SERVICE_PORT}:5001"
+    networks:
+      - backend
+  processing-service:
+    build:
+      context: .
+      dockerfile: ./processing-service/Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "${PROCESSING_SERVICE_PORT}:5002"
+    networks:
+      - backend
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    env_file:
+      - .env
+    ports:
+      - "${RABBITMQ_AMQP_PORT}:5672"
+      - "${RABBITMQ_HTTP_PORT}:15672"
+    networks:
+      - backend
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    container_name: rabbitmq-service
+
+  elasticsearch:
+    image: elasticsearch:9.0.2
+    env_file:
+      - .env
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "${ELASTIC_SEARCH_PORT}:9200"
+      - "${ELASTIC_SEARCH_PORT}:9300"
+    networks:
+      - backend
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+    container_name: elasticsearch-service
+networks:
+  backend:
+    driver: bridge
+volumes:
+  elastic_data:
+  rabbitmq_data:
