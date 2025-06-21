@@ -1,3 +1,5 @@
+server:
+  port: 5001
 spring:
   rabbitmq:
     host: ${RABBITMQ_HOST}
@@ -6,3 +8,6 @@ spring:
     password: ${RABBITMQ_PASS}
   application:
     name: Ingestion-Service
+logging:
+  level:
+    tdr.pet.ingestion: DEBUG
