@@ -3,6 +3,7 @@ package tdr.pet.ingestion.service;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
+import lombok.extern.log4j.Log4j2;
 import model.EnrichedLogEvent;
 import model.GeoLocation;
 import model.LogEvent;
@@ -12,20 +13,24 @@ import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
+import tdr.pet.ingestion.repository.EnrichedLogEventRepository;
 import ua_parser.Client;
 import ua_parser.Parser;
 
 import java.io.IOException;
 import java.net.InetAddress;
 
+@Log4j2
 @Service
 public class ProcessingService {
     private final DatabaseReader databaseReader;
     private final Parser userAgentParser;
+    private final EnrichedLogEventRepository enrichedLogEventRepository;
 
-    public ProcessingService(DatabaseReader databaseReader, Parser userAgentParser) {
-        this.databaseReader = databaseReader;
+    public ProcessingService(DatabaseReader databaseReader, Parser userAgentParser, EnrichedLogEventRepository enrichedLogEventRepository) {
+        this.enrichedLogEventRepository = enrichedLogEventRepository;
         this.userAgentParser = userAgentParser;
+        this.databaseReader = databaseReader;
     }
 
     @RabbitListener(bindings = @QueueBinding(
@@ -34,9 +39,13 @@ public class ProcessingService {
             key = "logs.key")
     )
     public void process(LogEvent logEvent) {
+        log.info("Enriching LogEvent:{}", logEvent);
         EnrichedLogEvent enrichedLogEvent = EnrichedLogEvent.fromLogEvent(logEvent);
         enrichedLogEvent.setGeo(enrichGeoData(logEvent.getIp()));
         enrichedLogEvent.setParsedUserAgent(parseUserAgentInfo(logEvent.getUserAgent()));
+        log.info("Enriched LogEvent:{}", logEvent);
+        enrichedLogEventRepository.save(enrichedLogEvent);
+        log.info("Saved EnrichedLogEvent:{}", logEvent);
     }
 
     public GeoLocation enrichGeoData(String ip) {
@@ -49,7 +58,8 @@ public class ProcessingService {
             geoLocation.setLongitude(cityResponse.getLocation().getLongitude());
             return geoLocation;
         } catch (IOException | GeoIp2Exception e) {
-            throw new RuntimeException(e);
+            log.error("Error enriching GeoLocation", e);
+            return null;
         }
     }
 
