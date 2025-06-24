@@ -28,7 +28,7 @@ services:
       - RABBITMQ_USER=${RABBITMQ_USER}
       - RABBITMQ_PASS=${RABBITMQ_PASS}
       - ELASTIC_SEARCH_HOST=elasticsearch
-      - ELASTIC_SEARCH_PORT=${ELASTICSEARCH_PORT}
+      - ELASTIC_SEARCH_PORT=${ELASTIC_SEARCH_PORT}
       - ELASTIC_SEARCH_SCHEME=${ELASTIC_SEARCH_SCHEME}
       - ELASTIC_SEARCH_USER=${ELASTIC_SEARCH_USER}
       - ELASTIC_SEARCH_PASS=${ELASTIC_SEARCH_PASS}
@@ -70,6 +70,8 @@ services:
     environment:
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ELASTIC_PASSWORD=${ELASTIC_SEARCH_PASS}
+      - xpack.security.enabled=true
     env_file:
       - .env
     ports:
