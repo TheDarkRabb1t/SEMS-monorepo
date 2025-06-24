@@ -1,6 +1,7 @@
 package model;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -8,6 +9,8 @@ import java.util.List;
 
 @Data
 public class EnrichedLogEvent implements Serializable {
+    @Id
+    private String id;
     private String ip;
     private String message;
     private String rawUserAgent;
