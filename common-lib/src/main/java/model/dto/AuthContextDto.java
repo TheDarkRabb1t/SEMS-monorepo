@@ -1,12 +1,11 @@
-package model;
+package model.dto;
 
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class AuthContext implements Serializable {
+public class AuthContextDto {
     private String userId;
     private List<String> roles;
     private boolean isAdmin;

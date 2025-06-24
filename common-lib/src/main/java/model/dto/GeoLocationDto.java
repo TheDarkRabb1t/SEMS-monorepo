@@ -1,11 +1,9 @@
-package model;
+package model.dto;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
-public class GeoLocation implements Serializable {
+public class GeoLocationDto {
     private String country;
     private String city;
     private Double latitude;
