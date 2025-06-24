@@ -33,7 +33,6 @@ public class ProcessingService {
             exchange = @Exchange(value = "logs.exchange", ignoreDeclarationExceptions = "true", type = "topic"),
             key = "logs.key")
     )
-
     public void process(LogEvent logEvent) {
         EnrichedLogEvent enrichedLogEvent = EnrichedLogEvent.fromLogEvent(logEvent);
         enrichedLogEvent.setGeo(enrichGeoData(logEvent.getIp()));
