@@ -16,5 +16,5 @@ public class UserAgentInfo implements Serializable {
     private String os;
 
     @Field(type = FieldType.Keyword, name = "device_type")
-    private String deviceType; // "Desktop", "Mobile", etc.
+    private String deviceType;
 }

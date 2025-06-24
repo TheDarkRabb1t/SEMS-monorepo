@@ -21,7 +21,6 @@ public class GeoLocation implements Serializable {
     @Field(type = FieldType.Double)
     private Double longitude;
 
-    // Optional: Add geo_point field for location-based queries
     @Field(type = FieldType.Auto)
     public String getLocation() {
         if (latitude != null && longitude != null) {
