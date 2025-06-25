@@ -1,4 +1,4 @@
-import model.EnrichedLogEvent;
+import model.entity.EnrichedLogEvent;
 import model.LogEvent;
 import org.junit.jupiter.api.Test;
 

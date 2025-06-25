@@ -25,8 +25,8 @@ subprojects {
 
         testImplementation(platform("org.junit:junit-bom:5.13.1"))
         testImplementation("org.junit.jupiter:junit-jupiter-api")
-        testImplementation("org.mockito:mockito-core")
-        testImplementation("org.mockito:mockito-junit-jupiter")
+        testImplementation("org.mockito:mockito-core:5.14.2")
+        testImplementation("org.mockito:mockito-junit-jupiter:5.14.2")
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
         testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     }
