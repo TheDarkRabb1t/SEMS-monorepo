@@ -13,4 +13,6 @@ spring:
     password: ${ELASTIC_SEARCH_PASS}
     uris: ${ELASTIC_SEARCH_SCHEME}://${ELASTIC_SEARCH_HOST}:${ELASTIC_SEARCH_PORT}
 geoip:
-  dbPath: "/GeoLite2-City.mmdb"
+  source:
+    url: "https://git.io/GeoLite2-City.mmdb"
+  dbPath: "./data/GeoLite2-City.mmdb"
