@@ -1,12 +1,13 @@
 package tdr.pet.ingestion.service;
 
 import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 import lombok.extern.log4j.Log4j2;
+import model.LogEvent;
 import model.entity.EnrichedLogEvent;
 import model.entity.GeoLocation;
-import model.LogEvent;
 import model.entity.UserAgentInfo;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
@@ -57,6 +58,9 @@ public class ProcessingService {
             geoLocation.setLatitude(cityResponse.getLocation().getLatitude());
             geoLocation.setLongitude(cityResponse.getLocation().getLongitude());
             return geoLocation;
+        } catch (AddressNotFoundException addressNotFoundException) {
+            log.warn("Address not found. {}", addressNotFoundException.getMessage());
+            return null;
         } catch (IOException | GeoIp2Exception e) {
             log.error("Error enriching GeoLocation", e);
             return null;
