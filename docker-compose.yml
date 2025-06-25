@@ -44,6 +44,18 @@ services:
       elasticsearch:
         condition: service_started
 
+  authorization-server:
+    build:
+      context: .
+      dockerfile: ./authorization-server/Dockerfile
+    environment:
+      - DATABASE_HOST=postgresql
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASS=${DATABASE_PASS}
+    env_file:
+      - .env
+
   rabbitmq:
     image: rabbitmq:3.13-management-alpine
     environment:
@@ -83,6 +95,21 @@ services:
       - elastic_data:/usr/share/elasticsearch/data
     container_name: elasticsearch-service
 
+  postgresql:
+    image: postgres:15.13
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASS}
+    env_file:
+      - .env
+    ports:
+      - "${DATABASE_PORT}:5432"
+    networks:
+      - backend
+    volumes:
+      - postgresql_data:/usr/share/postgresql/data
+    container_name: postgresql
+
 networks:
   backend:
     driver: bridge
@@ -90,3 +117,4 @@ networks:
 volumes:
   elastic_data:
   rabbitmq_data:
+  postgresql_data:
