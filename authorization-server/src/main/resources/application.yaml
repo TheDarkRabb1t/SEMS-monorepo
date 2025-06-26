@@ -4,11 +4,12 @@ server:
   address: ${AUTHORIZATION_SERVER_HOST:127.0.0.1}
   port: 5004
 spring:
+  sql:
+    init:
+      schema-locations: classpath:oauth2-schema.sql
+      mode: always
   datasource:
     url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/database
     username: ${DATABASE_USER}
     password: ${DATABASE_PASS}
     driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
