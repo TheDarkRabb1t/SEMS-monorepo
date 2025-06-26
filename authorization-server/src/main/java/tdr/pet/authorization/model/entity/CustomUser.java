@@ -1,7 +1,5 @@
 package tdr.pet.authorization.model.entity;
 
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -11,24 +9,29 @@ import org.springframework.data.relational.core.mapping.Table;
 import tdr.pet.authorization.model.UserRole;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Table(name = "users")
 public class CustomUser {
     @Id
-    private String id;
-    @Column
+    private UUID id;
+
+    @Column("username")
     private String username;
-    @Column
+
+    @Column("password")
     private String password;
-    @Column
-    @Enumerated(EnumType.STRING)
+
+    @Column("role")
     private UserRole role;
 
-    @Column
     @CreatedDate
+    @Column("created_at")
     private LocalDateTime createdAt;
-    @Column
+
     @LastModifiedDate
+    @Column("modified_at")
     private LocalDateTime modifiedAt;
+
 }
