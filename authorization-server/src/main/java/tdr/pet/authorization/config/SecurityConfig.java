@@ -62,9 +62,9 @@ public class SecurityConfig {
 
     @Bean
     public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate,
-                                                                 @Value("server.ssl.enabled") boolean sslEnabled,
-                                                                 @Value("server.address") String host,
-                                                                 @Value("server.port") String port) {
+                                                                 @Value("${server.ssl.enabled}") boolean sslEnabled,
+                                                                 @Value("${server.address}") String host,
+                                                                 @Value("${server.port}") String port) {
         JdbcRegisteredClientRepository jdbcRegisteredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
         if (jdbcRegisteredClientRepository.findByClientId("oidc-client") == null) {
             String scheme = sslEnabled ? "https" : "http";
