@@ -13,7 +13,7 @@ dependencies {
     //auth
     implementation("org.springframework.boot:spring-boot-starter-security:3.5.0")
     implementation("org.springframework.security:spring-security-oauth2-authorization-server:1.5.0")
-    implementation("com.nimbusds:oauth2-oidc-sdk")
+    runtimeOnly("com.nimbusds:oauth2-oidc-sdk:11.26")
     //data
     implementation("org.springframework.data:spring-data-jdbc:3.5.1")
     implementation("org.postgresql:postgresql:42.7.7")
