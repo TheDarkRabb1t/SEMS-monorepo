@@ -56,6 +56,8 @@ services:
       - AUTHORIZATION_SERVER_HOST=${AUTHORIZATION_SERVER_HOST}
     env_file:
       - .env
+    ports:
+      - "${AUTHORIZATION_SERVICE_PORT}:5004"
 
   rabbitmq:
     image: rabbitmq:3.13-management-alpine
