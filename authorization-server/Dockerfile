@@ -14,8 +14,8 @@ COPY authorization-server ./authorization-server
 RUN gradle :authorization-server:build --no-daemon
 
 FROM eclipse-temurin:21-jre
-EXPOSE 5001
+EXPOSE 5004
 RUN mkdir "app"
-COPY --from=build /home/gradle/src/authorization-server/build/libs/authorization-app-*.jar /app/authorization-app.jar
+COPY --from=build /home/gradle/src/authorization-server/build/libs/authorization-server-*.jar /app/authorization-server.jar
 WORKDIR /app
-ENTRYPOINT ["java", "-jar", "authorization-app.jar"]
+ENTRYPOINT ["java", "-jar", "authorization-server.jar"]

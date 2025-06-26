@@ -60,6 +60,8 @@ services:
       - .env
     ports:
       - "${AUTHORIZATION_SERVICE_PORT}:5004"
+    depends_on:
+      - postgresql
     container_name: authorization-server
 
   rabbitmq:
