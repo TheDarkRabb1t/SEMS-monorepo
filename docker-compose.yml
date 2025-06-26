@@ -61,7 +61,8 @@ services:
     ports:
       - "${AUTHORIZATION_SERVICE_PORT}:5004"
     depends_on:
-      - postgresql
+      postgresql:
+        condition: service_healthy
     container_name: authorization-server
 
   rabbitmq:
@@ -106,6 +107,7 @@ services:
   postgresql:
     image: postgres:15.13
     environment:
+      - POSTGRES_DB=users
       - POSTGRES_USER=${DATABASE_USER}
       - POSTGRES_PASSWORD=${DATABASE_PASS}
     env_file:
@@ -117,6 +119,11 @@ services:
     volumes:
       - postgresql_data:/usr/share/postgresql/data
     container_name: postgresql
+    healthcheck:
+      test: sh -c "pg_isready -U $${DATABASE_USER}"
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
 networks:
   backend:
