@@ -15,6 +15,7 @@ dependencies {
     implementation("org.springframework.security:spring-security-oauth2-authorization-server:1.5.0")
     implementation("com.nimbusds:oauth2-oidc-sdk")
     //data
+    implementation("jakarta.persistence:jakarta.persistence-api:3.2.0")
     implementation("org.springframework.data:spring-data-jpa:3.5.1")
     implementation("org.springframework.data:spring-data-jdbc:3.5.1")
     implementation("org.postgresql:postgresql:42.7.7")
