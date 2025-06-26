@@ -15,7 +15,9 @@ dependencies {
     implementation("org.springframework.security:spring-security-oauth2-authorization-server:1.5.0")
     runtimeOnly("com.nimbusds:oauth2-oidc-sdk:11.26")
     //data
-    implementation("org.springframework.data:spring-data-jdbc:3.5.1")
+    implementation("org.springframework.data:spring-data-jdbc:3.5.0")
+    implementation("org.springframework.boot:spring-boot-starter-data-jdbc:3.5.0")
+//    implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.5.0")
     implementation("org.postgresql:postgresql:42.7.7")
     annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
 }
