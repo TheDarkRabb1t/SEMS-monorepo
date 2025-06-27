@@ -1,4 +1,4 @@
-package model;
+package model.dto;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.time.Instant;
 
 @Data
-public class LogEvent implements Serializable {
+public class LogEventDto implements Serializable {
     private String ip;
     private String message;
     private String status;

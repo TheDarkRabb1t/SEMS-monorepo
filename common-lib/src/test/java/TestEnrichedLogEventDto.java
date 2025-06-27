@@ -1,17 +1,17 @@
 import model.entity.EnrichedLogEvent;
-import model.LogEvent;
+import model.dto.LogEventDto;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestEnrichedLogEvent {
+public class TestEnrichedLogEventDto {
     @Test
     void testFromLogEvent() {
         Instant now = Instant.now();
 
-        LogEvent event = new LogEvent();
+        LogEventDto event = new LogEventDto();
         event.setIp("127.0.0.1");
         event.setMessage("Hello World");
         event.setStatus("ERROR");

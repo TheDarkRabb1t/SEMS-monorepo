@@ -5,7 +5,7 @@ import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 import lombok.extern.log4j.Log4j2;
-import model.LogEvent;
+import model.dto.LogEventDto;
 import model.entity.EnrichedLogEvent;
 import model.entity.GeoLocation;
 import model.entity.UserAgentInfo;
@@ -39,14 +39,14 @@ public class ProcessingService {
             exchange = @Exchange(value = "logs.exchange", ignoreDeclarationExceptions = "true", type = "topic"),
             key = "logs.key")
     )
-    public void process(LogEvent logEvent) {
-        log.info("Enriching LogEvent:{}", logEvent);
-        EnrichedLogEvent enrichedLogEvent = EnrichedLogEvent.fromLogEvent(logEvent);
-        enrichedLogEvent.setGeo(enrichGeoData(logEvent.getIp()));
-        enrichedLogEvent.setParsedUserAgent(parseUserAgentInfo(logEvent.getUserAgent()));
-        log.info("Enriched LogEvent:{}", logEvent);
+    public void process(LogEventDto logEventDto) {
+        log.info("Enriching LogEvent:{}", logEventDto);
+        EnrichedLogEvent enrichedLogEvent = EnrichedLogEvent.fromLogEvent(logEventDto);
+        enrichedLogEvent.setGeo(enrichGeoData(logEventDto.getIp()));
+        enrichedLogEvent.setParsedUserAgent(parseUserAgentInfo(logEventDto.getUserAgent()));
+        log.info("Enriched LogEvent:{}", logEventDto);
         enrichedLogEventRepository.save(enrichedLogEvent);
-        log.info("Saved EnrichedLogEvent:{}", logEvent);
+        log.info("Saved EnrichedLogEvent:{}", logEventDto);
     }
 
     public GeoLocation enrichGeoData(String ip) {

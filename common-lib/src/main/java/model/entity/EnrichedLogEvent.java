@@ -2,7 +2,7 @@ package model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import model.LogEvent;
+import model.dto.LogEventDto;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -54,13 +54,13 @@ public class EnrichedLogEvent implements Serializable {
     @Field(type = FieldType.Object)
     private AuthContext auth;
 
-    public static EnrichedLogEvent fromLogEvent(LogEvent logEvent) {
+    public static EnrichedLogEvent fromLogEvent(LogEventDto logEventDto) {
         EnrichedLogEvent enrichedLogEvent = new EnrichedLogEvent();
-        enrichedLogEvent.setIp(logEvent.getIp());
-        enrichedLogEvent.setStatus(logEvent.getStatus());
-        enrichedLogEvent.setMessage(logEvent.getMessage());
-        enrichedLogEvent.setRawUserAgent(logEvent.getUserAgent());
-        enrichedLogEvent.setTimestamp(logEvent.getTimestamp());
+        enrichedLogEvent.setIp(logEventDto.getIp());
+        enrichedLogEvent.setStatus(logEventDto.getStatus());
+        enrichedLogEvent.setMessage(logEventDto.getMessage());
+        enrichedLogEvent.setRawUserAgent(logEventDto.getUserAgent());
+        enrichedLogEvent.setTimestamp(logEventDto.getTimestamp());
         return enrichedLogEvent;
     }
 }

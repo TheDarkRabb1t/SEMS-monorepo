@@ -1,6 +1,6 @@
 package tdr.pet.ingestion.controller;
 
-import model.LogEvent;
+import model.dto.LogEventDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,8 +18,8 @@ public class LogRestController {
     }
 
     @PostMapping()
-    public ResponseEntity<Void> uploadLogs(@RequestBody LogEvent logEvent) {
-        logPublisherService.publishLog(logEvent);
+    public ResponseEntity<Void> uploadLogs(@RequestBody LogEventDto logEventDto) {
+        logPublisherService.publishLog(logEventDto);
         return ResponseEntity.accepted().build();
     }
 }
