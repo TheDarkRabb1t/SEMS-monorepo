@@ -26,8 +26,12 @@ via RabbitMQ. It supports ingesting, processing, searching, and alerting on stru
 - Docker for infrastructure
 - `.env` based config
 
-## Development Notes
-
-- RabbitMQ is run via Docker on ports 5672 (AMQP) and 15672 (UI).
+# Development Notes
+## Ports
+- Ingestion service: 5001
+- Processing service: 5002
+- Authorization Server: 5004
+- PostgreSQL: 5432 
+- RabbitMQ: 5672 (AMQP) and 15672 (UI).
 - Shared logic (e.g., DTOs, utilities) is placed in a `common-lib` module and included as a dependency.
 - `.env` file variables are used
