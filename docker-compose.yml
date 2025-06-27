@@ -60,6 +60,8 @@ services:
       - .env
     ports:
       - "${AUTHORIZATION_SERVICE_PORT}:5004"
+    networks:
+      - backend
     depends_on:
       postgresql:
         condition: service_healthy
