@@ -1,6 +1,6 @@
-CREATE TABLE oauth2_authorization
+CREATE TABLE IF NOT EXISTS oauth2_authorization
 (
-    id                            UUID PRIMARY KEY,
+    id                            VARCHAR(100) PRIMARY KEY,  -- Changed from UUID to VARCHAR
     registered_client_id          VARCHAR(100) NOT NULL,
     principal_name                VARCHAR(200) NOT NULL,
     authorization_grant_type      VARCHAR(100) NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE oauth2_authorization
     refresh_token_metadata        BYTEA
 );
 
-CREATE TABLE oauth2_authorization_consent
+CREATE TABLE IF NOT EXISTS oauth2_authorization_consent
 (
     registered_client_id VARCHAR(100) NOT NULL,
     principal_name       VARCHAR(200) NOT NULL,
@@ -35,9 +35,9 @@ CREATE TABLE oauth2_authorization_consent
     PRIMARY KEY (registered_client_id, principal_name)
 );
 
-CREATE TABLE oauth2_registered_client
+CREATE TABLE IF NOT EXISTS oauth2_registered_client
 (
-    id                            UUID PRIMARY KEY,
+    id                            VARCHAR(100) PRIMARY KEY,  -- Changed from UUID to VARCHAR
     client_id                     VARCHAR(100)  NOT NULL,
     client_id_issued_at           TIMESTAMP     NOT NULL,
     client_secret                 VARCHAR(200),
