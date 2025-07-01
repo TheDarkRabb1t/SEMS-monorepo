@@ -35,7 +35,6 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(savedUser);
     }
 
-    @Transactional
     public UserDto getUserByUsername(String username) {
         CustomUser user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
         return userMapper.toDto(user);
