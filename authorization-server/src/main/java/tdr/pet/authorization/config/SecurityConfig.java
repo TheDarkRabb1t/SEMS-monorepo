@@ -68,6 +68,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authorize) ->
                         authorize
+                                .requestMatchers("/webjars/**", "/assets/**").permitAll()
                                 .requestMatchers("/api/users/register").permitAll()
                                 .requestMatchers("/login", "/error").permitAll()
                                 .anyRequest().authenticated()
