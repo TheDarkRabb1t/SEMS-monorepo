@@ -8,6 +8,7 @@ import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
@@ -43,6 +44,7 @@ import java.util.UUID;
 public class SecurityConfig {
 
     @Bean
+    @Order(1)
     public SecurityFilterChain authorizationServerSecurityFilerChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = OAuth2AuthorizationServerConfigurer.authorizationServer();
         http
@@ -57,6 +59,21 @@ public class SecurityConfig {
                                 new LoginUrlAuthenticationEntryPoint("/login"),
                                 new MediaTypeRequestMatcher(MediaType.TEXT_HTML))
                 );
+        return http.build();
+    }
+
+    @Bean
+    @Order(2)
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests((authorize) ->
+                        authorize
+                                .requestMatchers("/api/users/register").permitAll()
+                                .requestMatchers("/login", "/error").permitAll()
+                                .anyRequest().authenticated()
+                )
+                .csrf(AbstractHttpConfigurer::disable)
+                .formLogin(Customizer.withDefaults());
         return http.build();
     }
 
@@ -83,17 +100,6 @@ public class SecurityConfig {
             jdbcRegisteredClientRepository.save(oidcClient);
         }
         return jdbcRegisteredClientRepository;
-    }
-
-    @Bean
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests((authorize) ->
-                        authorize.anyRequest().authenticated()
-                )
-                .csrf(AbstractHttpConfigurer::disable)
-                .formLogin(Customizer.withDefaults());
-        return http.build();
     }
 
     @Bean

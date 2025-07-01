@@ -16,3 +16,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+logging:
+  level:
+    tdr.pet.authorization: DEBUG
+    org.springframework.security: DEBUG
