@@ -9,7 +9,7 @@ spring:
       schema-locations: classpath:oauth2-schema.sql
       mode: always
   datasource:
-    url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/users
+    url: jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/sems-users?createDatabaseIfNotExist=true
     username: ${DATABASE_USER}
     password: ${DATABASE_PASS}
     driver-class-name: org.postgresql.Driver
