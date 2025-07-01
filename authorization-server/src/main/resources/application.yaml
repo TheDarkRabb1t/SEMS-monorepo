@@ -25,3 +25,29 @@ logging:
     tdr.pet.authorization: DEBUG
     org.springframework.security: DEBUG
     org.springframework.security.oauth2: DEBUG
+
+auth:
+  oauth2:
+    clients:
+#      - client-id: dashboard-client
+#        client-secret: "${DASHBOARD_CLIENT_SECRET}"
+#        grant-types:
+#          - authorization_code
+#          - refresh_token
+#        redirect-uris:
+#          - http://${DASHBOARD_HOST}:${DASHBOARD_PORT}/login/oauth2/code/dashboard-client
+#        post-logout-uris:
+#          - http://${DASHBOARD_HOST}:${DASHBOARD_PORT}/
+#        scopes:
+#          - openid
+#          - profile
+#        require-consent: true
+
+      - client-id: ingestion-client
+        client-secret: "${INGESTION_CLIENT_SECRET}"
+        grant-types:
+          - client_credentials
+        scopes:
+          - ingest:read
+          - ingest:write
+        require-consent: false

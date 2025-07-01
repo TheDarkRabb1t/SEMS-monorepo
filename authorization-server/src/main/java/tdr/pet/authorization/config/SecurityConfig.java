@@ -5,7 +5,6 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -19,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
@@ -31,6 +29,7 @@ import org.springframework.security.oauth2.server.authorization.settings.ClientS
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
+import tdr.pet.authorization.config.client.OAuth2ClientProperties;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -79,28 +78,34 @@ public class SecurityConfig {
     }
 
     @Bean
-    public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate,
-                                                                 @Value("${server.ssl.enabled}") boolean sslEnabled,
-                                                                 @Value("${server.address}") String host,
-                                                                 @Value("${server.port}") String port) {
-        JdbcRegisteredClientRepository jdbcRegisteredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
-        if (jdbcRegisteredClientRepository.findByClientId("oidc-client") == null) {
-            String scheme = sslEnabled ? "https" : "http";
-            RegisteredClient oidcClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                    .clientId("oidc-client")
-                    .clientSecret("{noop}secret")
-                    .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                    .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                    .redirectUri("%s://%s:%s/login/oauth2/code/oidc-client".formatted(scheme, host, port))
-                    .postLogoutRedirectUri("%s://%s:%s/".formatted(scheme, host, port))
-                    .scope(OidcScopes.OPENID)
-                    .scope(OidcScopes.PROFILE)
-                    .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
-                    .build();
-            jdbcRegisteredClientRepository.save(oidcClient);
+    public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate, OAuth2ClientProperties properties) {
+        JdbcRegisteredClientRepository repo = new JdbcRegisteredClientRepository(jdbcTemplate);
+
+        for (OAuth2ClientProperties.Client client : properties.getClients()) {
+            if (repo.findByClientId(client.getClientId()) != null) continue;
+            RegisteredClient.Builder builder = RegisteredClient
+                    .withId(UUID.randomUUID().toString())
+                    .clientId(client.getClientId())
+                    .clientSecret(client.getClientSecret())
+                    .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC);
+
+            client.getGrantTypes().forEach(gt -> builder.authorizationGrantType(new AuthorizationGrantType(gt)));
+            if (client.getRedirectUris() != null) {
+                client.getRedirectUris().forEach(builder::redirectUri);
+            }
+            if (client.getPostLogoutUris() != null) {
+                client.getPostLogoutUris().forEach(builder::postLogoutRedirectUri);
+            }
+            if (client.getScopes() != null) {
+                client.getScopes().forEach(builder::scope);
+            }
+
+            builder.clientSettings(ClientSettings.builder()
+                    .requireAuthorizationConsent(client.isRequireConsent())
+                    .build());
+            repo.save(builder.build());
         }
-        return jdbcRegisteredClientRepository;
+        return repo;
     }
 
     @Bean
