@@ -36,6 +36,10 @@ public class AuthorizationService {
         Instant now = Instant.now();
         long expiry = 3600L;
 
+        String authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(" "));
+
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
                 .issuer("%s://%s:%s".formatted(Boolean.parseBoolean(
                                 env.getProperty("server.ssl.enabled")) ? "https" : "http",
@@ -43,9 +47,9 @@ public class AuthorizationService {
                 .issuedAt(now)
                 .expiresAt(now.plus(expiry, ChronoUnit.SECONDS))
                 .subject(authentication.getName())
-                .claim("scope", authentication.getAuthorities().stream()
-                        .map(GrantedAuthority::getAuthority)
-                        .collect(Collectors.joining(" ")))
+                .claim("scope", authorities)
+                .claim("authorities", authorities)
+                .claim("username", authentication.getName())
                 .build();
         return this.jwtEncoder.encode(JwtEncoderParameters.from(claimsSet));
     }

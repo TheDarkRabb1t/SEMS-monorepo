@@ -21,3 +21,4 @@ app:
 logging:
   level:
     tdr.pet.ingestion: DEBUG
+    org.springframework.security: DEBUG
