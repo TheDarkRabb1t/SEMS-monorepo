@@ -62,12 +62,12 @@ CREATE TABLE IF NOT EXISTS oauth2_registered_client (
                                                         token_settings VARCHAR(1000) NOT NULL
 );
 
--- Insert default admin user (password: 'admin123')
+-- Insert default admin user (password: 'admin')
 INSERT INTO users (username, password, role)
-VALUES ('admin', '$2a$10$GRLdNijSQMUvl/au9ofL.eDDmxTlIvVpwH5mTBt4OaYYqKPYSH7hq', 'ADMIN')
+VALUES ('admin', '$2a$10$0JKbgDmSDleX3UFa26RTFOKcJ57HbZzPBqA4NkzOnSka4seZbUV/.', 'ADMIN')
 ON CONFLICT (username) DO NOTHING;
 
--- Insert default regular user (password: 'user123')
+-- Insert default regular user (password: 'user')
 INSERT INTO users (username, password, role)
-VALUES ('user', '$2a$10$GRLdNijSQMUvl/au9ofL.eDDmxTlIvVpwH5mTBt4OaYYqKPYSH7hq', 'USER')
+VALUES ('user', '$2a$10$aWEDjDCsb9VwMB0emb5wmeumgw4r9uCR7xZVlaVDomxEI.5YH7OUO', 'USER')
 ON CONFLICT (username) DO NOTHING;
