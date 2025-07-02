@@ -59,7 +59,7 @@ services:
     env_file:
       - .env
     ports:
-      - "${AUTHORIZATION_SERVICE_PORT}:5004"
+      - "${AUTHORIZATION_SERVER_PORT}:5004"
     networks:
       - backend
     depends_on:

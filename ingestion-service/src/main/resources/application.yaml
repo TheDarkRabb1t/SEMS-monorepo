@@ -8,6 +8,11 @@ spring:
     password: ${RABBITMQ_PASS}
   application:
     name: Ingestion-Service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://${AUTHORIZATION_SERVER_HOST}:${AUTHORIZATION_SERVER_PORT}/aouth2/jwks
 
 app:
   authorization-server:
