@@ -1,4 +1,4 @@
-package tdr.pet.authorization.service;
+package tdr.pet.authorization.service.user;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

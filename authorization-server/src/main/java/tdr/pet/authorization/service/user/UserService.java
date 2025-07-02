@@ -1,4 +1,4 @@
-package tdr.pet.authorization.service;
+package tdr.pet.authorization.service.user;
 
 import tdr.pet.authorization.model.dto.UserDto;
 import tdr.pet.authorization.model.dto.UserRegistrationDto;

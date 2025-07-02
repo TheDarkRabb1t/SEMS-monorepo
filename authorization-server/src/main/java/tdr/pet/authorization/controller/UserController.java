@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tdr.pet.authorization.model.dto.UserDto;
 import tdr.pet.authorization.model.dto.UserRegistrationDto;
-import tdr.pet.authorization.service.UserService;
+import tdr.pet.authorization.service.user.UserService;
 
 import java.security.Principal;
 

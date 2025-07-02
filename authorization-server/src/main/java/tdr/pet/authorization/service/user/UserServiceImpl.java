@@ -1,4 +1,4 @@
-package tdr.pet.authorization.service;
+package tdr.pet.authorization.service.user;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,8 +10,6 @@ import tdr.pet.authorization.model.dto.UserDto;
 import tdr.pet.authorization.model.dto.UserRegistrationDto;
 import tdr.pet.authorization.model.entity.CustomUser;
 import tdr.pet.authorization.repository.UserRepository;
-
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
