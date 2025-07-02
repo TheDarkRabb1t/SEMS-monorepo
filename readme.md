@@ -11,8 +11,7 @@ via RabbitMQ. It supports ingesting, processing, searching, and alerting on stru
 
 - **Ingestion Service** – Accepts log/activity events via REST and pushes them to RabbitMQ.
 - **Processor Service** – Consumes messages, and forwards to Elasticsearch.
-- **Search API** – Exposes a REST interface to query historical data from Elasticsearch.
-- **User Service** – Handles authentication, roles, and user metadata.
+- **Authorization Server** – OAuth2 & registration server.
 - **Alerting Service** – Monitors logs for anomalies and stores alerts in Redis.
 - **Dashboard Gateway** – Aggregates system metrics and exposes WebSocket/REST endpoints.
 
