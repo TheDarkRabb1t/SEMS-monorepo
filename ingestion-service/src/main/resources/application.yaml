@@ -8,6 +8,11 @@ spring:
     password: ${RABBITMQ_PASS}
   application:
     name: Ingestion-Service
+
+app:
+  authorization-server:
+    base-url: http://${AUTHORIZATION_SERVER_HOST}:5004
+
 logging:
   level:
     tdr.pet.ingestion: DEBUG

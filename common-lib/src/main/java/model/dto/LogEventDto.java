@@ -11,5 +11,6 @@ public class LogEventDto implements Serializable {
     private String message;
     private String status;
     private String userAgent;
+    private String userId;
     private Instant timestamp;
 }
