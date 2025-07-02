@@ -109,7 +109,7 @@ services:
   postgresql:
     image: postgres:15.13
     environment:
-      - POSTGRES_DB=users
+      - POSTGRES_DB=sems_users
       - POSTGRES_USER=${DATABASE_USER}
       - POSTGRES_PASSWORD=${DATABASE_PASS}
     env_file:
