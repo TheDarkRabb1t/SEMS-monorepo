@@ -22,3 +22,4 @@ logging:
   level:
     tdr.pet.ingestion: DEBUG
     org.springframework.security: DEBUG
+    org.springframework.security.oauth2: TRACE

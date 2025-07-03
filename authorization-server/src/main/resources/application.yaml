@@ -24,7 +24,7 @@ logging:
   level:
     tdr.pet.authorization: DEBUG
     org.springframework.security: DEBUG
-    org.springframework.security.oauth2: DEBUG
+    org.springframework.security.oauth2: TRACE
 
 auth:
   oauth2:

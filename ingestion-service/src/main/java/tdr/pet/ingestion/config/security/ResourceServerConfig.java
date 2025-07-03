@@ -7,16 +7,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
@@ -51,25 +53,45 @@ public class ResourceServerConfig {
 
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter scopeConverter = new JwtGrantedAuthoritiesConverter();
-        scopeConverter.setAuthoritiesClaimName("scope");
-
-        JwtGrantedAuthoritiesConverter roleConverter = new JwtGrantedAuthoritiesConverter();
-        roleConverter.setAuthoritiesClaimName("authorities");
-
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
-        converter.setJwtGrantedAuthoritiesConverter(authorities -> {
-            Collection<GrantedAuthority> scopeAuthorities = scopeConverter.convert(authorities);
-            Collection<GrantedAuthority> roleAuthorities = roleConverter.convert(authorities);
-
-            Set<GrantedAuthority> allAuthorities = new HashSet<>();
-            allAuthorities.addAll(scopeAuthorities);
-            allAuthorities.addAll(roleAuthorities);
-
-            return allAuthorities;
-        });
-
+        converter.setJwtGrantedAuthoritiesConverter(this::extractAuthorities);
         return converter;
+    }
+
+    private Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
+        Set<GrantedAuthority> authorities = new HashSet<>();
+
+        // Extract scopes from 'scope' claim
+        String scope = jwt.getClaimAsString("scope");
+        if (scope != null && !scope.isEmpty()) {
+            authorities.addAll(
+                    Set.of(scope.split(" "))
+                            .stream()
+                            .filter(s -> !s.trim().isEmpty())
+                            .map(s -> new SimpleGrantedAuthority("SCOPE_" + s))
+                            .collect(Collectors.toSet())
+            );
+        }
+
+        // Extract roles from 'authorities' claim
+        String authoritiesString = jwt.getClaimAsString("authorities");
+        if (authoritiesString != null && !authoritiesString.isEmpty()) {
+            authorities.addAll(
+                    Set.of(authoritiesString.split(" "))
+                            .stream()
+                            .filter(s -> !s.trim().isEmpty())
+                            .map(s -> new SimpleGrantedAuthority("ROLE_" + s))
+                            .collect(Collectors.toSet())
+            );
+        }
+
+        // Extract user role and add as ROLE_
+        String userRole = jwt.getClaimAsString("user_role");
+        if (userRole != null && !userRole.isEmpty()) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + userRole));
+        }
+
+        return authorities;
     }
 
     @Bean
