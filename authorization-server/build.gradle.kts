@@ -8,7 +8,6 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":common-lib"))
     implementation("org.mapstruct:mapstruct:1.6.3")
     implementation("org.springframework.boot:spring-boot-starter-web")
     //auth

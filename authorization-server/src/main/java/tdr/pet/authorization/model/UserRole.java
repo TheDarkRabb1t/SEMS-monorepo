@@ -1,4 +1,4 @@
-package model.enums;
+package tdr.pet.authorization.model;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

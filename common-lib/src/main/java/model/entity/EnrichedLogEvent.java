@@ -3,7 +3,6 @@ package model.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import model.dto.LogEventDto;
-import model.enums.SeverityLevel;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;

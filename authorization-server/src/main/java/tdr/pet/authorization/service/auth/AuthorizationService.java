@@ -1,8 +1,6 @@
 package tdr.pet.authorization.service.auth;
 
 import lombok.AllArgsConstructor;
-import model.enums.UserRole;
-import model.enums.UserScope;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +15,7 @@ import tdr.pet.authorization.model.dto.UserDto;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,9 +42,10 @@ public class AuthorizationService {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
 
+        // Extract user role and map to scopes
         String userRole = extractUserRole(authorities);
-        Set<UserScope> scopes = UserScope.getScopesForRole(UserRole.valueOf(userRole));
-        String scopeString = scopes.stream().map(UserScope::toString).collect(Collectors.joining(" "));
+        Set<String> scopes = mapRoleToScopes(userRole);
+        String scopeString = String.join(" ", scopes);
 
         JwtClaimsSet claimsSet = JwtClaimsSet.builder()
                 .issuer("%s://%s:%s".formatted(Boolean.parseBoolean(
@@ -63,12 +63,33 @@ public class AuthorizationService {
     }
 
     private String extractUserRole(String authorities) {
-        if (authorities.contains(UserRole.ADMIN.toString())) {
-            return UserRole.ADMIN.toString();
-        } else if (authorities.contains(UserRole.USER.toString())) {
-            return UserRole.USER.toString();
+        if (authorities.contains("ADMINISTRATOR")) {
+            return "ADMIN";
+        } else if (authorities.contains("USER")) {
+            return "USER";
         }
-        return UserRole.USER.toString();
+        return "USER";
     }
 
+    private Set<String> mapRoleToScopes(String role) {
+        Set<String> scopes = new HashSet<>();
+
+        switch (role) {
+            case "ADMIN":
+                scopes.add("ingest:read");
+                scopes.add("ingest:write");
+                scopes.add("admin:read");
+                scopes.add("admin:write");
+                break;
+            case "USER":
+                scopes.add("ingest:read");
+                scopes.add("ingest:write");
+                break;
+            default:
+                scopes.add("ingest:read");
+                break;
+        }
+
+        return scopes;
+    }
 }

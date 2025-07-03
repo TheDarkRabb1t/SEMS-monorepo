@@ -1,4 +1,4 @@
-package model.enums;
+package model.entity;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

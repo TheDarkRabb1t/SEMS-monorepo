@@ -1,7 +1,7 @@
 package tdr.pet.authorization.model.dto;
 
 import lombok.Data;
-import model.enums.UserRole;
+import tdr.pet.authorization.model.UserRole;
 
 @Data
 public class UserDto {
