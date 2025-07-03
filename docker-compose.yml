@@ -48,7 +48,7 @@ services:
       rabbitmq:
         condition: service_healthy
       elasticsearch:
-        condition: service_started
+        condition: service_healthy
 
   authorization-server:
     build:
@@ -109,6 +109,11 @@ services:
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
     container_name: elasticsearch-service
+    healthcheck:
+      test: curl -s -u elastic:${ELASTIC_SEARCH_PASS} http://localhost:9200/_cluster/health | grep -q '"status"'
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   postgresql:
     image: postgres:15.13
