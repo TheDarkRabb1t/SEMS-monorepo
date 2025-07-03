@@ -1,3 +1,43 @@
+# Git and IDE files
+.git
+.gitignore
+.idea
+*.iml
+*.ipr
+*.iws
+.vscode
+.DS_Store
+
+# Documentation and config files
+*.md
+README*
+.env*
+docker-compose*.yml
+Dockerfile*
+
+# Build outputs
 **/build/
-.gradle/
-data
+**/target/
+**/.gradle/
+**/out/
+
+# Logs
+*.log
+logs/
+
+# OS generated files
+Thumbs.db
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# Node modules (if any)
+node_modules/
+
+# Test outputs
+**/test-results/
+**/jacoco/

@@ -7,6 +7,8 @@ build/
 data/
 .env
 
+build-cache
+
 ### IntelliJ IDEA ###
 .idea/
 *.iws
