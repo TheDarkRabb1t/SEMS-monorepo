@@ -15,7 +15,7 @@ via RabbitMQ. It supports ingesting, processing, searching, and alerting on stru
 
 [//]: # (- **Alerting Service** – Monitors logs for anomalies and stores alerts in Redis.)
 
-[//]: # (- **Dashboard Gateway** – Aggregates system metrics and exposes WebSocket/REST endpoints.)
+- **Dashboard Gateway** – Aggregates system metrics and exposes ~~WebSocket~~/REST endpoints.
 
 ## Stack
 
