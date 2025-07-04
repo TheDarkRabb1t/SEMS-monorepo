@@ -13,6 +13,6 @@ public interface EnrichedLogRepository {
 
     Page<EnrichedLogEvent> findAll(Pageable pageable);
 
-    List<EnrichedLogEvent> searchByText(String searchText) throws IOException;
+    Page<EnrichedLogEvent> searchByText(String searchText, Pageable pageable) throws IOException;
 
 }

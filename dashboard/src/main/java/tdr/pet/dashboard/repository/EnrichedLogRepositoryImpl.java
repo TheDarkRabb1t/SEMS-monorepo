@@ -101,7 +101,8 @@ public class EnrichedLogRepositoryImpl implements EnrichedLogRepository {
         return criteria;
     }
 
-    public List<EnrichedLogEvent> searchByText(String searchText) throws IOException {
+    @Override
+    public Page<EnrichedLogEvent> searchByText(String searchText, Pageable pageable) throws IOException {
         SearchRequest request = SearchRequest.of(s -> s
                 .index("enriched_log_event")
                 .query(q -> q
@@ -113,8 +114,9 @@ public class EnrichedLogRepositoryImpl implements EnrichedLogRepository {
         );
 
         SearchResponse<EnrichedLogEvent> response = elasticsearchClient.search(request, EnrichedLogEvent.class);
-        return response.hits().hits().stream()
+        List<EnrichedLogEvent> content = response.hits().hits().stream()
                 .map(Hit::source)
                 .collect(Collectors.toList());
+        return new PageImpl<>(content, pageable, response.hits().total() != null ? response.hits().total().value() : 0);
     }
 }
