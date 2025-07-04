@@ -17,7 +17,7 @@ public class EnrichedLogServiceImpl implements EnrichedLogService {
     private final EnrichedLogEventMapper enrichedLogEventMapper;
 
     @Override
-    @Cacheable(value = "logs", key = "T(java.util.Objects).hash(#dto) + '_' + #pageable.pageNumber + '_' + #pageable.pageSize")
+    @Cacheable(value = "logs", key = "T(java.util.Objects).hashCode(#dto) + '_' + #pageable.pageNumber + '_' + #pageable.pageSize")
     public Page<EnrichedLogEventDto> searchEnrichedLogEvents(Pageable pageable, EnrichedLogEventDto dto) {
         if (dto == null) {
             return enrichedLogRepository.findAll(pageable).map(enrichedLogEventMapper::toDto);
