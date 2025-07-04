@@ -5,5 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface EnrichedLogService {
-    Page<EnrichedLogEventDto> searchEnrichedLogEvents(Pageable pageable, EnrichedLogEventDto enrichedLogEventDto);
+    Page<EnrichedLogEventDto> searchByDto(EnrichedLogEventDto enrichedLogEventDto, Pageable pageable);
+
+    Page<EnrichedLogEventDto> searchByText(String searchText, Pageable pageable);
 }
