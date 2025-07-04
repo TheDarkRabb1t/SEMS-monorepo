@@ -1,11 +1,18 @@
 package tdr.pet.dashboard.repository;
 
+import model.dto.EnrichedLogEventDto;
 import model.entity.EnrichedLogEvent;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.UUID;
+import java.io.IOException;
+import java.util.List;
 
-@Repository
-public interface EnrichedLogRepository extends ElasticsearchRepository<EnrichedLogEvent, UUID> {
+public interface EnrichedLogRepository {
+    Page<EnrichedLogEvent> searchByDto(EnrichedLogEventDto dto, Pageable pageable);
+
+    Page<EnrichedLogEvent> findAll(Pageable pageable);
+
+    List<EnrichedLogEvent> searchByText(String searchText) throws IOException;
+
 }
