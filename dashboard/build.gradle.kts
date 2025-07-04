@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "tdr.pet"
-version = "unspecified"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
