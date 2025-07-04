@@ -9,12 +9,9 @@ import model.entity.EnrichedLogEvent;
 import model.entity.GeoLocation;
 import model.entity.UserAgentInfo;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface EnrichedLogEventMapper {
-
-    EnrichedLogEventMapper INSTANCE = Mappers.getMapper(EnrichedLogEventMapper.class);
 
     EnrichedLogEvent toEntity(EnrichedLogEventDto dto);
 
