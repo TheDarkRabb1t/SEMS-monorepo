@@ -14,7 +14,7 @@ import tdr.pet.ingestion.service.UserInfoService;
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/logs")
-public class LogRestController {
+public class LogIngestionRestController {
     private final LogPublisherService logPublisherService;
     private final UserInfoService userInfoService;
 
