@@ -14,7 +14,7 @@ COPY dashboard ./dashboard
 RUN gradle :dashboard:build --no-daemon
 
 FROM eclipse-temurin:21-jre
-EXPOSE 5004
+EXPOSE 5003
 RUN mkdir "app"
 COPY --from=build /home/gradle/src/dashboard/build/libs/dashboard-*.jar /app/dashboard.jar
 WORKDIR /app

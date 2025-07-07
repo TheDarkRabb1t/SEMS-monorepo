@@ -17,6 +17,6 @@ public class EnrichedLogRestController {
 
     @PostMapping
     public ResponseEntity<Page<EnrichedLogEventDto>> searchEnrichedLogs(Pageable pageable, EnrichedLogEventDto enrichedLogEventDto) {
-        return ResponseEntity.ok(enrichedLogService.searchEnrichedLogEvents(pageable, enrichedLogEventDto));
+        return ResponseEntity.ok(enrichedLogService.searchByDto(enrichedLogEventDto, pageable));
     }
 }
