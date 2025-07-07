@@ -71,6 +71,27 @@ services:
         condition: service_healthy
     container_name: authorization-server
 
+  dashboard:
+    build:
+      context: .
+      dockerfile: ./dashboard/Dockerfile
+    environment:
+      - ELASTIC_SEARCH_HOST=elasticsearch
+      - ELASTIC_SEARCH_PORT=${ELASTIC_SEARCH_PORT}
+      - ELASTIC_SEARCH_SCHEME=${ELASTIC_SEARCH_SCHEME}
+      - ELASTIC_SEARCH_USER=${ELASTIC_SEARCH_USER}
+      - ELASTIC_SEARCH_PASS=${ELASTIC_SEARCH_PASS}
+    env_file:
+      - .env
+    ports:
+      - "${AUTHORIZATION_SERVER_PORT}:5003"
+    networks:
+      - backend
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    container_name: dashboard
+
   rabbitmq:
     image: rabbitmq:3.13-management-alpine
     environment:
