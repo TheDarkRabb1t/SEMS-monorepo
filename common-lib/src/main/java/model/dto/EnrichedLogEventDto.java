@@ -7,7 +7,6 @@ import java.time.Instant;
 import java.util.List;
 
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class EnrichedLogEventDto {
     private String id;
     private String ip;

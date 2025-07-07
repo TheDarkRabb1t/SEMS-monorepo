@@ -16,7 +16,6 @@ import java.util.List;
 
 @Data
 @Document(indexName = "enriched_log_event")
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class EnrichedLogEvent implements Serializable {
 
     @Id
