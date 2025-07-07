@@ -22,4 +22,9 @@ public class EnrichedLogRestController {
     public ResponseEntity<Page<EnrichedLogEventDto>> searchEnrichedLogs(Pageable pageable, @RequestBody EnrichedLogEventDto enrichedLogEventDto) {
         return ResponseEntity.ok(enrichedLogService.searchByDto(enrichedLogEventDto, pageable));
     }
+
+    @PostMapping("/search-text")
+    public ResponseEntity<Page<EnrichedLogEventDto>> searchEnrichedLogsByText(Pageable pageable, @RequestBody String searchText) {
+        return ResponseEntity.ok(enrichedLogService.searchByText(searchText, pageable));
+    }
 }

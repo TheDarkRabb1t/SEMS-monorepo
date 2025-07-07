@@ -3,7 +3,6 @@ package tdr.pet.dashboard.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import model.dto.EnrichedLogEventDto;
-import model.exception.entity.EntityNotFoundException;
 import model.mapper.EnrichedLogEventMapper;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -37,7 +36,7 @@ public class EnrichedLogServiceImpl implements EnrichedLogService {
             return enrichedLogRepository.searchByText(searchText, pageable).map(enrichedLogEventMapper::toDto);
         } catch (IOException e) {
             log.error("Error during enriched log text search", e);
-            throw new EntityNotFoundException("Couldn't find enriched log");
+            throw new RuntimeException("Error during search");
         }
     }
 }

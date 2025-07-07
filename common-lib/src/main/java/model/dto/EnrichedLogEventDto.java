@@ -1,11 +1,13 @@
 package model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.time.Instant;
 import java.util.List;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EnrichedLogEventDto {
     private String id;
     private String ip;
