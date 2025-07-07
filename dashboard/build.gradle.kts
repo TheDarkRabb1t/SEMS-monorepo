@@ -24,6 +24,12 @@ dependencies {
     implementation("co.elastic.clients:elasticsearch-java:9.0.3")
     implementation("org.elasticsearch:elasticsearch:9.0.3")
 
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+
+
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+
     // Jackson for JSON processing
     implementation("com.fasterxml.jackson.core:jackson-databind")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")

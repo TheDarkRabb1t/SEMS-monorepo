@@ -1,2 +1,11 @@
+spring:
+  application:
+    name: Dashboard
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${AUTHORIZATION_SERVER_SCHEME}://${AUTHORIZATION_SERVER_HOST}:${AUTHORIZATION_SERVER_PORT}/oauth2/jwks
+
 server:
   port: 5003
