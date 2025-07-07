@@ -1,0 +1,25 @@
+server:
+  port: 5001
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_AMQP_PORT}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASS}
+  application:
+    name: Ingestion-Service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${AUTHORIZATION_SERVER_SCHEME}://${AUTHORIZATION_SERVER_HOST}:${AUTHORIZATION_SERVER_PORT}/oauth2/jwks
+
+app:
+  authorization-server:
+    base-url: ${AUTHORIZATION_SERVER_SCHEME}://${AUTHORIZATION_SERVER_HOST}:5004
+
+logging:
+  level:
+    tdr.pet.ingestion: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: TRACE

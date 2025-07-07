@@ -1,0 +1,170 @@
+services:
+  ingestion-service:
+    build:
+      context: .
+      dockerfile: ./ingestion-service/Dockerfile
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=${RABBITMQ_AMQP_PORT}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASS=${RABBITMQ_PASS}
+
+      - AUTHORIZATION_SERVER_SCHEME=${AUTHORIZATION_SERVER_SCHEME}
+      - AUTHORIZATION_SERVER_HOST=authorization-server
+      - AUTHORIZATION_SERVER_PORT=${AUTHORIZATION_SERVER_PORT}
+    env_file:
+      - .env
+    ports:
+      - "${INGESTION_SERVICE_PORT}:5001"
+    networks:
+      - backend
+    depends_on:
+      authorization-server:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+
+  processing-service:
+    build:
+      context: .
+      dockerfile: ./processing-service/Dockerfile
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=${RABBITMQ_AMQP_PORT}
+      - RABBITMQ_USER=${RABBITMQ_USER}
+      - RABBITMQ_PASS=${RABBITMQ_PASS}
+      - ELASTIC_SEARCH_HOST=elasticsearch
+      - ELASTIC_SEARCH_PORT=${ELASTIC_SEARCH_PORT}
+      - ELASTIC_SEARCH_SCHEME=${ELASTIC_SEARCH_SCHEME}
+      - ELASTIC_SEARCH_USER=${ELASTIC_SEARCH_USER}
+      - ELASTIC_SEARCH_PASS=${ELASTIC_SEARCH_PASS}
+    env_file:
+      - .env
+    ports:
+      - "${PROCESSING_SERVICE_PORT}:5002"
+    networks:
+      - backend
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+  authorization-server:
+    build:
+      context: .
+      dockerfile: ./authorization-server/Dockerfile
+    environment:
+      - DATABASE_HOST=postgresql
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASS=${DATABASE_PASS}
+      - AUTHORIZATION_SERVER_HOST=${AUTHORIZATION_SERVER_HOST}
+    env_file:
+      - .env
+    ports:
+      - "${AUTHORIZATION_SERVER_PORT}:5004"
+    networks:
+      - backend
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    container_name: authorization-server
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: ./dashboard/Dockerfile
+    environment:
+      - ELASTIC_SEARCH_HOST=elasticsearch
+      - ELASTIC_SEARCH_PORT=${ELASTIC_SEARCH_PORT}
+      - ELASTIC_SEARCH_SCHEME=${ELASTIC_SEARCH_SCHEME}
+      - ELASTIC_SEARCH_USER=${ELASTIC_SEARCH_USER}
+      - ELASTIC_SEARCH_PASS=${ELASTIC_SEARCH_PASS}
+      - AUTHORIZATION_SERVER_SCHEME=${AUTHORIZATION_SERVER_SCHEME}
+      - AUTHORIZATION_SERVER_HOST=authorization-server
+      - AUTHORIZATION_SERVER_PORT=${AUTHORIZATION_SERVER_PORT}
+    env_file:
+      - .env
+    ports:
+      - "${DASHBOARD_SERVER_PORT}:5003"
+    networks:
+      - backend
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    container_name: dashboard
+
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
+    env_file:
+      - .env
+    ports:
+      - "${RABBITMQ_AMQP_PORT}:5672"
+      - "${RABBITMQ_HTTP_PORT}:15672"
+    networks:
+      - backend
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    container_name: rabbitmq-service
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  elasticsearch:
+    image: elasticsearch:9.0.2
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ELASTIC_PASSWORD=${ELASTIC_SEARCH_PASS}
+      - xpack.security.enabled=true
+    env_file:
+      - .env
+    ports:
+      - "${ELASTIC_SEARCH_PORT}:9200"
+      - "9300:9300"
+    networks:
+      - backend
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+    container_name: elasticsearch-service
+    healthcheck:
+      test: curl -s -u elastic:${ELASTIC_SEARCH_PASS} http://localhost:9200/_cluster/health | grep -q '"status"'
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  postgresql:
+    image: postgres:15.13
+    environment:
+      - POSTGRES_DB=sems_users
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASS}
+    env_file:
+      - .env
+    ports:
+      - "${DATABASE_PORT}:5432"
+    networks:
+      - backend
+    volumes:
+      - postgresql_data:/usr/share/postgresql/data
+    container_name: postgresql
+    healthcheck:
+      test: sh -c "pg_isready -U $${DATABASE_USER}"
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  elastic_data:
+  rabbitmq_data:
+  postgresql_data:

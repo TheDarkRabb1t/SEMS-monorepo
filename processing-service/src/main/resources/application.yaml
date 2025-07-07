@@ -1,0 +1,18 @@
+server:
+  port: 5002
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_AMQP_PORT}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASS}
+  application:
+    name: Processing-Service
+  elasticsearch:
+    username: ${ELASTIC_SEARCH_USER}
+    password: ${ELASTIC_SEARCH_PASS}
+    uris: ${ELASTIC_SEARCH_SCHEME}://${ELASTIC_SEARCH_HOST}:${ELASTIC_SEARCH_PORT}
+geoip:
+  source:
+    url: "https://git.io/GeoLite2-City.mmdb"
+  dbPath: "./data/GeoLite2-City.mmdb"
