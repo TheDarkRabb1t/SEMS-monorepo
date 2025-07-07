@@ -11,6 +11,9 @@ repositories {
     mavenCentral()
 }
 
+// Define compatible versions
+extra["elasticsearchVersion"] = "8.11.4"
+
 dependencies {
     implementation(project(":common-lib"))
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -19,15 +22,12 @@ dependencies {
     implementation("org.springframework.data:spring-data-commons:3.5.0")
     implementation("org.springframework.boot:spring-boot-starter-security")
 
-
     implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
-    implementation("co.elastic.clients:elasticsearch-java:9.0.3")
-    implementation("org.elasticsearch:elasticsearch:9.0.3")
 
-    implementation("org.springframework.boot:spring-boot-starter-security")
+    // Use consistent Elasticsearch versions
+    implementation("co.elastic.clients:elasticsearch-java:${property("elasticsearchVersion")}")
+
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
-
-
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     // Jackson for JSON processing
