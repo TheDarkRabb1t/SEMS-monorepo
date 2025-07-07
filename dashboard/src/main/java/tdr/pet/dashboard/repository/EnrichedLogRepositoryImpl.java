@@ -71,11 +71,11 @@ public class EnrichedLogRepositoryImpl implements EnrichedLogRepository {
         }
 
         if (dto.getMessage() != null && !dto.getMessage().isEmpty()) {
-            criteria = criteria.and(Criteria.where("message").contains(dto.getMessage()));
+            criteria = criteria.and(Criteria.where("message").is(dto.getMessage()));
         }
 
         if (dto.getRawUserAgent() != null && !dto.getRawUserAgent().isEmpty()) {
-            criteria = criteria.and(Criteria.where("rawUserAgent").contains(dto.getRawUserAgent()));
+            criteria = criteria.and(Criteria.where("rawUserAgent").is(dto.getRawUserAgent()));
         }
 
         if (dto.getUserId() != null && !dto.getUserId().isEmpty()) {
