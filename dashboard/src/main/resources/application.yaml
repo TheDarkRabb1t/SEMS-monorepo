@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: Dashboard
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${AUTHORIZATION_SERVER_SCHEME}://${AUTHORIZATION_SERVER_HOST}:${AUTHORIZATION_SERVER_PORT}/oauth2/jwks
+  elasticsearch:
+    username: ${ELASTIC_SEARCH_USER}
+    password: ${ELASTIC_SEARCH_PASS}
+    uris: ${ELASTIC_SEARCH_SCHEME}://${ELASTIC_SEARCH_HOST}:${ELASTIC_SEARCH_PORT}
+server:
+  port: 5003
